@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cafe Oasis • Seriously Good Coffee</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans for clean editorial UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              ink: '#1C1917',
+              inkLight: '#FAF8F5',
+              muted: '#78716C',
+              mutedDark: '#A8A29E',
+              terracotta: '#B66847',
+              terracottaDark: '#D97A52',
+              bgLight: '#FAF8F5',
+              bgDark: '#181614',
+              surfaceLight: '#FFFFFF',
+              surfaceDark: '#221F1C',
+              borderLight: '#EAE5DC',
+              borderDark: '#2C2723',
+              pillInactive: '#66615B',
+              pillInactiveDark: '#9E978E'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Hide horizontal scrollbar while keeping native touch swipe */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Terracotta accent bar under category headers */
+    .accent-bar {
+      width: 42px;
+      height: 3px;
+      background-color: #B66847;
+      border-radius: 9999px;
+    }
+    .dark .accent-bar {
+      background-color: #D97A52;
+    }
+  </style>
+</head>
+<body class="bg-brand-bgLight text-brand-ink dark:bg-brand-bgDark dark:text-brand-inkLight font-sans antialiased transition-colors duration-200 min-h-screen pb-16">
+
+  <!-- Top Navigation & Brand Header Bar -->
+  <header class="w-full bg-brand-bgLight/95 dark:bg-brand-bgDark/95 border-b border-brand-borderLight dark:border-brand-borderDark px-4 sm:px-8 py-5 transition-colors">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+      
+      <!-- Brand Identity (Left) -->
+      <div class="flex items-center space-x-4">
+        <!-- Logo Emblem -->
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#EFE9DF] dark:bg-[#2C2723] border border-[#DDD5C7] dark:border-[#3D3730] flex flex-col items-center justify-center p-1 text-center shadow-xs flex-shrink-0">
+          <span class="text-xl leading-none">☕</span>
+          <span class="text-[9px] font-extrabold tracking-tight text-brand-ink dark:text-brand-inkLight uppercase mt-0.5">Oasis</span>
+        </div>
+
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-ink dark:text-brand-inkLight tracking-tight leading-none">
+            Cafe Oasis
+          </h1>
+          <p class="text-xs sm:text-sm font-medium text-brand-muted dark:text-brand-mutedDark mt-1">
+            Seriously Good Coffee
+          </p>
+        </div>
+      </div>
+
+      <!-- Store Metadata & Actions (Right) -->
+      <div class="flex flex-col items-start md:items-end space-y-2 text-xs text-brand-muted dark:text-brand-mutedDark">
+        <div class="flex items-center justify-between w-full md:w-auto gap-4">
+          <div class="space-y-1">
+            <p class="flex items-center gap-1 font-medium text-brand-ink dark:text-brand-inkLight">
+              <span>📍</span> Unit 04, Casa Enrica, Mercedes Ave. Pasig
+            </p>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span class="flex items-center gap-1">📞 +63 976 319 7146</span>
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400">
+                ⭐ GrabFood 5-Star Eats
+              </span>
+            </div>
+            <p class="flex items-center gap-1 text-[11px]">
+              <span>🕒</span> Mon–Sat 10:30am–9:30pm
+            </p>
+          </div>
+
+          <!-- Dark Mode Toggle Button -->
+          <button 
+            id="themeToggleBtn"
+            type="button"
+            aria-label="Toggle dark mode"
+            class="p-2.5 rounded-full bg-[#EFE9DF] dark:bg-[#2A2622] text-brand-ink dark:text-brand-inkLight border border-brand-borderLight dark:border-brand-borderDark hover:scale-105 active:scale-95 transition flex items-center justify-center cursor-pointer shadow-xs"
+          >
+            <span id="themeIcon" class="text-base select-none">🌙</span>
+          </button>
+        </div>
+
+        <!-- Action Buttons Row -->
+        <div class="flex items-center gap-2 pt-1">
+          <button 
+            type="button"
+            onclick="triggerToast('🛵 Connecting you to GrabFood ordering...')"
+            class="px-3.5 py-1.5 rounded-full bg-brand-terracotta hover:bg-brand-terracotta/90 text-white font-semibold text-xs transition shadow-xs cursor-pointer flex items-center gap-1"
+          >
+            🛵 Order
+          </button>
+          <button 
+            type="button"
+            onclick="triggerToast('📍 Casa Enrica, Mercedes Ave, Pasig City')"
+            class="px-3.5 py-1.5 rounded-full bg-[#EFE9DF] dark:bg-[#2A2622] hover:bg-[#E5DDCF] dark:hover:bg-[#342F2A] text-brand-ink dark:text-brand-inkLight font-semibold text-xs border border-brand-borderLight dark:border-brand-borderDark transition cursor-pointer flex items-center gap-1"
+          >
+            📍 Directions
+          </button>
+          <button 
+            type="button"
+            onclick="triggerToast('🤩 Ask barista to punch your Oasis Loyalty card!')"
+            class="px-3.5 py-1.5 rounded-full bg-[#EFE9DF] dark:bg-[#2A2622] hover:bg-[#E5DDCF] dark:hover:bg-[#342F2A] text-brand-ink dark:text-brand-inkLight font-semibold text-xs border border-brand-borderLight dark:border-brand-borderDark transition cursor-pointer flex items-center gap-1"
+          >
+            🤩 Loyalty
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Sticky Category Navigation Bar (Clean swipe, no visible scrollbar) -->
+  <nav id="stickyNav" class="sticky top-0 z-40 w-full bg-brand-bgLight/95 dark:bg-brand-bgDark/95 backdrop-blur-md border-b border-brand-borderLight dark:border-brand-borderDark transition-colors">
+    <div class="max-w-5xl mx-auto px-4 py-2.5">
+      <div 
+        id="categoryContainer" 
+        class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar scroll-smooth py-1"
+      >
+        <!-- Category pills injected dynamically -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Menu Sections Feed -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-12">
+    <div id="menuSectionsFeed" class="space-y-16">
+      <!-- Section items dynamically rendered here -->
+    </div>
+  </main>
+
+  <!-- Clean Social Cards & Footer -->
+  <footer class="max-w-5xl mx-auto px-4 sm:px-6 mt-6 border-t border-brand-borderLight dark:border-brand-borderDark pt-8 pb-10">
+    <div class="space-y-6">
+      <div>
+        <p class="text-xs font-bold text-brand-terracotta dark:text-brand-terracottaDark uppercase tracking-wider mb-2">Connect With Us</p>
+        <h3 class="text-xl font-extrabold text-brand-ink dark:text-brand-inkLight">Follow Cafe Oasis Online</h3>
+      </div>
+
+      <!-- 3 Clean Social Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <!-- Facebook -->
+        <a 
+          href="https://facebook.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center justify-between p-3.5 rounded-xl bg-[#F3EDE3] dark:bg-[#201D1A] border border-brand-borderLight dark:border-brand-borderDark hover:border-brand-terracotta dark:hover:border-brand-terracotta transition group"
+        >
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-[#1877F2]/10 text-[#1877F2] flex items-center justify-center font-bold text-base">
+              f
+            </div>
+            <div>
+              <p class="text-sm font-bold text-brand-ink dark:text-brand-inkLight">Facebook</p>
+              <p class="text-xs text-brand-muted dark:text-brand-mutedDark">@CafeOasisPH</p>
+            </div>
+          </div>
+          <span class="text-sm text-brand-muted group-hover:translate-x-0.5 transition">→</span>
+        </a>
+
+        <!-- Instagram -->
+        <a 
+          href="https://instagram.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center justify-between p-3.5 rounded-xl bg-[#F3EDE3] dark:bg-[#201D1A] border border-brand-borderLight dark:border-brand-borderDark hover:border-brand-terracotta dark:hover:border-brand-terracotta transition group"
+        >
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-500 to-purple-600 text-white flex items-center justify-center font-bold text-xs">
+              📸
+            </div>
+            <div>
+              <p class="text-sm font-bold text-brand-ink dark:text-brand-inkLight">Instagram</p>
+              <p class="text-xs text-brand-muted dark:text-brand-mutedDark">@cafeoasis.ph</p>
+            </div>
+          </div>
+          <span class="text-sm text-brand-muted group-hover:translate-x-0.5 transition">→</span>
+        </a>
+
+        <!-- TikTok -->
+        <a 
+          href="https://tiktok.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center justify-between p-3.5 rounded-xl bg-[#F3EDE3] dark:bg-[#201D1A] border border-brand-borderLight dark:border-brand-borderDark hover:border-brand-terracotta dark:hover:border-brand-terracotta transition group"
+        >
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-black text-white dark:bg-white dark:text-black flex items-center justify-center font-bold text-xs">
+              🎵
+            </div>
+            <div>
+              <p class="text-sm font-bold text-brand-ink dark:text-brand-inkLight">TikTok</p>
+              <p class="text-xs text-brand-muted dark:text-brand-mutedDark">@cafeoasisph</p>
+            </div>
+          </div>
+          <span class="text-sm text-brand-muted group-hover:translate-x-0.5 transition">→</span>
+        </a>
+      </div>
+
+      <!-- Bottom Badge Details -->
+      <div class="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-brand-muted dark:text-brand-mutedDark border-t border-brand-borderLight/60 dark:border-brand-borderDark/60">
+        <p>© Cafe Oasis • Casa Enrica, Mercedes Ave, Pasig</p>
+        <span class="inline-flex items-center gap-1.5 font-medium text-emerald-700 dark:text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Instant QR Menu • No App Download Required
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Feedback Box -->
+  <div 
+    id="toastBox" 
+    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-[#1C1917] text-white dark:bg-[#F5F2EC] dark:text-[#1C1917] px-4 py-2.5 rounded-full text-xs font-medium shadow-xl opacity-0 pointer-events-none transition-opacity duration-200 flex items-center space-x-2"
+  >
+    <span id="toastMsg">Notification message</span>
+  </div>
+
+  <script>
+    // Force manual scroll restoration so reloads always reset to top
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    const MENU_SECTIONS = [
+      {
+        id: "coffee",
+        pillLabel: "Coffee",
+        title: "Coffee Craft",
+        subtitle: null,
+        description: "Experience the art of handcrafted coffee at Cafe Oasis. From smooth, slow-steeped cold brew to our signature caramel sweet cream creations, every cup is brewed to perfection using premium beans. Whether you need a comforting hot brew to start your morning or a refreshing iced coffee for that afternoon pick-me-up, our Coffee Craft collection delivers pure coffee bliss in every sip.",
+        hasSizes: true,
+        items: [
+          { name: "Brewed Coffee", reg: "₱95", lrg: "₱105", popular: false },
+          { name: "Cold Brew", reg: "₱105", lrg: "₱115", popular: false },
+          { name: "Sweet Cream Cold Brew", reg: "₱135", lrg: "₱145", popular: true },
+          { name: "Vanilla Sweet Cream Nitro", reg: "₱145", lrg: "₱155", popular: false }
+        ]
+      },
+      {
+        id: "espresso",
+        pillLabel: "Espresso",
+        title: "Espresso",
+        subtitle: "Hot or Iced",
+        description: "Indulge in the rich, bold foundation of all great coffee drinks. Our espresso shots are pulled from carefully selected beans, delivering that perfect crema and intense flavor profile. From classic Americanos to creamy Cafe Lattes, velvety Cappuccinos to our famous Caramel Macchiatos — each drink is crafted by our skilled baristas to café-quality perfection. Available hot or iced to match your mood.",
+        hasSizes: true,
+        items: [
+          { name: "Americano", reg: "₱115", lrg: "₱125", popular: false },
+          { name: "Cafe Latte", reg: "₱125", lrg: "₱135", popular: false },
+          { name: "Spanish Latte", reg: "₱145", lrg: "₱155", popular: true },
+          { name: "Caramel Macchiato", reg: "₱145", lrg: "₱155", popular: true },
+          { name: "Cafe Mocha", reg: "₱145", lrg: "₱155", popular: false },
+          { name: "White Chocolate Mocha", reg: "₱150", lrg: "₱160", popular: false }
+        ]
+      },
+      {
+        id: "non-coffee",
+        pillLabel: "Non-Coffee",
+        title: "Non-Coffee Treats",
+        subtitle: "Rich & Creamy",
+        description: "No espresso, pure indulgence. Savor high-grade ceremonial Kyoto matcha, decadent Belgian chocolate ganache, and comforting botanical blends crafted with farm-fresh textured milk.",
+        hasSizes: true,
+        items: [
+          { name: "Matcha Latte", reg: "₱135", lrg: "₱150", popular: true },
+          { name: "Belgian Dark Chocolate", reg: "₱130", lrg: "₱145", popular: false },
+          { name: "Roasted Hojicha Latte", reg: "₱140", lrg: "₱155", popular: false },
+          { name: "Chai Tea Latte", reg: "₱135", lrg: "₱145", popular: false }
+        ]
+      },
+      {
+        id: "refreshers",
+        pillLabel: "Refreshers",
+        title: "Refreshers & Coolers",
+        subtitle: "Fruit Infusions & Sparkling Fizz",
+        description: "Bright, sparkling fruit-forward quenchers brewed with loose-leaf teas, pure fruit purées, and crisp botanical sodas over crystal ice.",
+        hasSizes: true,
+        items: [
+          { name: "Strawberry Hibiscus Fizz", reg: "₱125", lrg: "₱140", popular: true },
+          { name: "Peach Mango White Tea", reg: "₱120", lrg: "₱135", popular: false },
+          { name: "Green Apple Lemonade Soda", reg: "₱115", lrg: "₱130", popular: false }
+        ]
+      },
+      {
+        id: "blended",
+        pillLabel: "Blended",
+        title: "Blended Frappes",
+        subtitle: "Topped with Whipped Cream",
+        description: "Decadent ice-blended beverages made with rich sauces, cold milk, and smooth whipped cream rosettes drizzled with house reductions.",
+        hasSizes: true,
+        items: [
+          { name: "Caramel Crunch Frappe", reg: "₱160", lrg: "₱175", popular: true },
+          { name: "Java Chip Mocha Frappe", reg: "₱165", lrg: "₱180", popular: true },
+          { name: "Matcha Cream Frappe", reg: "₱160", lrg: "₱175", popular: false },
+          { name: "Vanilla Bean Frappe", reg: "₱150", lrg: "₱165", popular: false }
+        ]
+      },
+      {
+        id: "affogato",
+        pillLabel: "Affogato",
+        title: "Affogato Specialties",
+        subtitle: "Gelato Meets Double Espresso",
+        description: "Artisanal Madagascar vanilla bean gelato served in chilled glass goblets and drowned in freshly pulled double ristretto shots.",
+        hasSizes: false,
+        items: [
+          { name: "Classic Vanilla Affogato", reg: "₱150", lrg: null, popular: true },
+          { name: "Biscoff Cookie Butter Affogato", reg: "₱175", lrg: null, popular: true },
+          { name: "Dark Cacao Sea Salt Affogato", reg: "₱165", lrg: null, popular: false }
+        ]
+      },
+      {
+        id: "bottled",
+        pillLabel: "Bottled",
+        title: "Bottled Cold Brew & Lattes",
+        subtitle: "Grab & Go 350ml / 500ml",
+        description: "Sealed cold glass bottles ready to stash in your home fridge. Brewed fresh every single morning in Pasig.",
+        hasSizes: true,
+        items: [
+          { name: "Bottled Spanish Latte", reg: "₱150", lrg: "₱210", popular: true },
+          { name: "Bottled Black Cold Brew", reg: "₱130", lrg: "₱180", popular: false },
+          { name: "Bottled Ceremonial Matcha", reg: "₱160", lrg: "₱220", popular: false }
+        ]
+      },
+      {
+        id: "add-ons",
+        pillLabel: "Add-Ons",
+        title: "Custom Add-Ons",
+        subtitle: "Elevate Your Cup",
+        description: "Tailor your drink with specialty syrups, dairy alternatives, and extra shots.",
+        hasSizes: false,
+        items: [
+          { name: "Extra Espresso Shot", reg: "₱35", lrg: null, popular: false },
+          { name: "Oat Milk Substitute (Minor Figures)", reg: "₱40", lrg: null, popular: true },
+          { name: "Vanilla / Caramel / Hazelnut Syrup", reg: "₱25", lrg: null, popular: false },
+          { name: "Sweet Cream Cold Foam", reg: "₱35", lrg: null, popular: true }
+        ]
+      },
+      {
+        id: "pizza",
+        pillLabel: "Pizza",
+        title: "Artisanal Thin-Crust Pizza",
+        subtitle: "Stone-Baked 10-Inch Pizzas",
+        description: "Slow-fermented 48-hour sourdough base with San Marzano tomato reduction, melted fresh mozzarella, and aromatic fresh herbs.",
+        hasSizes: false,
+        items: [
+          { name: "Four Cheese & Truffle Honey", reg: "₱385", lrg: null, popular: true },
+          { name: "Pepperoni & Hot Honey", reg: "₱365", lrg: null, popular: true },
+          { name: "Classic Margherita Basil", reg: "₱320", lrg: null, popular: false }
+        ]
+      },
+      {
+        id: "snacks",
+        pillLabel: "Snacks",
+        title: "Savory Snacks & Bakes",
+        subtitle: "Freshly Prepared",
+        description: "Warm flaky pastries, golden fries, and artisanal toasts to pair with your morning or afternoon coffee.",
+        hasSizes: false,
+        items: [
+          { name: "Truffle Parmesan Hand-Cut Fries", reg: "₱195", lrg: null, popular: true },
+          { name: "Butter Croissant", reg: "₱115", lrg: null, popular: false },
+          { name: "Cream Cheese Garlic Bread", reg: "₱135", lrg: null, popular: false }
+        ]
+      },
+      {
+        id: "pasta",
+        pillLabel: "Pasta",
+        title: "Handmade Pasta",
+        subtitle: "Cooked Al Dente",
+        description: "Authentic hearty pasta plates simmered with real olive oil, cream, and aged Parmigiano Reggiano.",
+        hasSizes: false,
+        items: [
+          { name: "Creamy Truffle Bacon Fettuccine", reg: "₱285", lrg: null, popular: true },
+          { name: "Spicy Seafood Aglio Olio", reg: "₱295", lrg: null, popular: false },
+          { name: "Pesto Genovese with Grilled Chicken", reg: "₱270", lrg: null, popular: false }
+        ]
+      },
+      {
+        id: "breakfast",
+        pillLabel: "Breakfast",
+        title: "All-Day Breakfast Plates",
+        subtitle: "Served with Garlic Rice or Sourdough",
+        description: "Filipino comfort classics and morning staples cooked fresh to order with cage-free eggs.",
+        hasSizes: false,
+        items: [
+          { name: "Angus Beef Tapa & Eggs", reg: "₱280", lrg: null, popular: true },
+          { name: "Classic Bacon & Scrambled Brioche", reg: "₱240", lrg: null, popular: false },
+          { name: "Homemade Longganisa Plate", reg: "₱250", lrg: null, popular: false }
+        ]
+      },
+      {
+        id: "keto",
+        pillLabel: "Keto",
+        title: "Keto & Low-Carb",
+        subtitle: "Zero Sugar • Clean Fats",
+        description: "Ketogenic-friendly creations with high-grade butter, MCT oil, and sugar-free stevia.",
+        hasSizes: true,
+        items: [
+          { name: "Bulletproof Keto Coffee", reg: "₱145", lrg: "₱160", popular: true },
+          { name: "Sugar-Free Keto Dark Chocolate", reg: "₱150", lrg: "₱165", popular: false }
+        ]
+      },
+      {
+        id: "faq",
+        pillLabel: "FAQ",
+        title: "Frequently Asked Questions",
+        subtitle: "Everything You Need to Know",
+        description: "Helpful details on table ordering, Wi-Fi connectivity, parking, and reservations at Cafe Oasis Pasig.",
+        hasSizes: false,
+        items: [
+          { name: "Do you have free high-speed Wi-Fi?", reg: "Yes • 100 Mbps", lrg: null, popular: false },
+          { name: "Are pets allowed inside?", reg: "100% Pet Friendly", lrg: null, popular: true },
+          { name: "Do you accept GCash and credit cards?", reg: "Yes (All Cards + QR)", lrg: null, popular: false },
+          { name: "Is parking available at Casa Enrica?", reg: "Free Customer Parking", lrg: null, popular: false }
+        ]
+      }
+    ];
+
+    let activeCategoryId = "coffee";
+    let isClickScrolling = false;
+    let clickTimeout = null;
+
+    // References will be assigned safely inside DOMContentLoaded
+    let categoryContainer = null;
+    let menuSectionsFeed = null;
+    let stickyNav = null;
+    let themeToggleBtn = null;
+    let themeIcon = null;
+
+    function triggerToast(msg) {
+      const toastBox = document.getElementById('toastBox');
+      const toastMsg = document.getElementById('toastMsg');
+      if (!toastBox || !toastMsg) return;
+
+      toastMsg.textContent = msg;
+      toastBox.classList.remove('opacity-0', 'pointer-events-none');
+      toastBox.classList.add('opacity-100');
+
+      setTimeout(() => {
+        toastBox.classList.add('opacity-0', 'pointer-events-none');
+        toastBox.classList.remove('opacity-100');
+      }, 2400);
+    }
+
+    function renderPills() {
+      if (!categoryContainer) return;
+      categoryContainer.innerHTML = MENU_SECTIONS.map(sec => {
+        const isActive = sec.id === activeCategoryId;
+        const activeClass = isActive 
+          ? "bg-brand-ink text-white dark:bg-brand-inkLight dark:text-brand-ink font-semibold shadow-xs" 
+          : "text-brand-pillInactive dark:text-brand-pillInactiveDark hover:text-brand-ink dark:hover:text-white bg-transparent font-medium";
+
+        return `
+          <button 
+            id="pill-${sec.id}"
+            type="button"
+            onclick="scrollToSection('${sec.id}')"
+            class="px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-all duration-200 cursor-pointer flex-shrink-0 active:scale-95 ${activeClass}"
+          >
+            ${sec.pillLabel}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderSections() {
+      if (!menuSectionsFeed) return;
+      menuSectionsFeed.innerHTML = MENU_SECTIONS.map(sec => {
+        const subtitleHtml = sec.subtitle 
+          ? `<p class="text-sm font-medium text-brand-muted dark:text-brand-mutedDark mt-0.5">${sec.subtitle}</p>` 
+          : '';
+
+        const dualHeaderHtml = sec.hasSizes 
+          ? `<div class="flex items-center justify-end space-x-6 sm:space-x-8 text-xs font-bold text-brand-terracotta dark:text-brand-terracottaDark tracking-wider uppercase mb-3">
+              <span class="w-12 sm:w-16 text-right">REG</span>
+              <span class="w-12 sm:w-16 text-right">LRG</span>
+             </div>`
+          : `<div class="flex items-center justify-end text-xs font-bold text-brand-terracotta dark:text-brand-terracottaDark tracking-wider uppercase mb-3">
+              <span>PRICE</span>
+             </div>`;
+
+        const itemsHtml = sec.items.map(item => {
+          const thumbIcon = item.popular ? `<span class="ml-1 inline-block text-base">👍</span>` : '';
+          
+          let pricesHtml = '';
+          if (sec.hasSizes) {
+            pricesHtml = `
+              <div class="flex items-center space-x-6 sm:space-x-8 text-sm sm:text-base font-semibold text-brand-ink dark:text-brand-inkLight tracking-tight">
+                <span class="w-12 sm:w-16 text-right">${item.reg}</span>
+                <span class="w-12 sm:w-16 text-right">${item.lrg || '—'}</span>
+              </div>
+            `;
+          } else {
+            pricesHtml = `
+              <div class="text-sm sm:text-base font-semibold text-brand-ink dark:text-brand-inkLight tracking-tight text-right">
+                <span>${item.reg}</span>
+              </div>
+            `;
+          }
+
+          return `
+            <div class="flex items-center justify-between py-3.5 border-b border-brand-borderLight/80 dark:border-brand-borderDark/80 hover:bg-black/[0.015] dark:hover:bg-white/[0.015] transition px-1 rounded">
+              <div class="flex items-center pr-4">
+                <span class="text-sm sm:text-base font-medium text-brand-ink dark:text-brand-inkLight leading-snug">
+                  ${item.name}
+                </span>
+                ${thumbIcon}
+              </div>
+              ${pricesHtml}
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <section id="${sec.id}" data-category-section class="scroll-mt-36 pt-2">
+            <div class="space-y-3 mb-6">
+              <div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-ink dark:text-brand-inkLight tracking-tight">
+                  ${sec.title}
+                </h2>
+                ${subtitleHtml}
+              </div>
+
+              <!-- Terracotta Accent Bar -->
+              <div class="accent-bar"></div>
+
+              <p class="text-sm sm:text-base text-brand-muted dark:text-brand-mutedDark leading-relaxed max-w-4xl pt-1">
+                ${sec.description}
+              </p>
+            </div>
+
+            <!-- Items Table -->
+            <div class="pt-2">
+              ${dualHeaderHtml}
+              <div class="divide-y-0">
+                ${itemsHtml}
+              </div>
+            </div>
+          </section>
+        `;
+      }).join('');
+    }
+
+    function handleWindowScroll() {
+      if (isClickScrolling) return;
+
+      const sections = document.querySelectorAll('[data-category-section]');
+      const navHeight = stickyNav ? stickyNav.offsetHeight : 70;
+      let currentId = MENU_SECTIONS[0].id;
+
+      sections.forEach(section => {
+        const top = section.offsetTop;
+        if (window.scrollY >= top - navHeight - 60) {
+          currentId = section.getAttribute('id');
+        }
+      });
+
+      // Bottom of page boundary check
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 80) {
+        currentId = MENU_SECTIONS[MENU_SECTIONS.length - 1].id;
+      }
+
+      if (currentId !== activeCategoryId) {
+        activeCategoryId = currentId;
+        renderPills();
+        autoCenterActivePill(currentId);
+      }
+    }
+
+    function autoCenterActivePill(catId) {
+      const activePill = document.getElementById(`pill-${catId}`);
+      if (!activePill || !categoryContainer) return;
+
+      const pillLeft = activePill.offsetLeft;
+      const pillWidth = activePill.offsetWidth;
+      const containerWidth = categoryContainer.offsetWidth;
+
+      categoryContainer.scrollTo({
+        left: pillLeft - (containerWidth / 2) + (pillWidth / 2),
+        behavior: 'smooth'
+      });
+    }
+
+    function scrollToSection(catId) {
+      isClickScrolling = true;
+      activeCategoryId = catId;
+      renderPills();
+      autoCenterActivePill(catId);
+
+      const targetSection = document.getElementById(catId);
+      if (targetSection) {
+        const navHeight = stickyNav ? stickyNav.offsetHeight : 70;
+        const elementPosition = targetSection.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - navHeight - 15;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+
+      clearTimeout(clickTimeout);
+      clickTimeout = setTimeout(() => {
+        isClickScrolling = false;
+      }, 700);
+    }
+
+    function initTheme() {
+      if (!themeIcon) return;
+      const isDark = localStorage.getItem('cafe_oasis_theme') === 'dark';
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        themeIcon.textContent = '☀️';
+      } else {
+        document.documentElement.classList.remove('dark');
+        themeIcon.textContent = '🌙';
+      }
+    }
+
+    window.addEventListener('scroll', handleWindowScroll, { passive: true });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Safely query DOM elements once elements exist
+      categoryContainer = document.getElementById('categoryContainer');
+      menuSectionsFeed = document.getElementById('menuSectionsFeed');
+      stickyNav = document.getElementById('stickyNav');
+      themeToggleBtn = document.getElementById('themeToggleBtn');
+      themeIcon = document.getElementById('themeIcon');
+
+      // Attach event listener safely with null check
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const isCurrentlyDark = document.documentElement.classList.contains('dark');
+          if (isCurrentlyDark) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('cafe_oasis_theme', 'light');
+            if (themeIcon) themeIcon.textContent = '🌙';
+          } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('cafe_oasis_theme', 'dark');
+            if (themeIcon) themeIcon.textContent = '☀️';
+          }
+        });
+      }
+
+      window.scrollTo(0, 0);
+      initTheme();
+      renderSections();
+      renderPills();
+    });
+
+    window.addEventListener('pageshow', () => {
+      window.scrollTo(0, 0);
+    });
+
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0);
+    });
+  </script>
+</body>
+</html>
